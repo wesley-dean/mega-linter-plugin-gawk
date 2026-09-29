@@ -3,13 +3,14 @@ SHELL := /bin/bash
 
 TEST_RESULTS_DIR := test-results
 DIST_DIR ?= dist
-SOURCE_DESCRIPTOR := mega-linter-plugin-dclint/dclint.megalinter-descriptor.yml
-DIST_DESCRIPTOR := $(DIST_DIR)/dclint.megalinter-descriptor.yml
+SOURCE_DESCRIPTOR := mega-linter-plugin-gawk/gawk.megalinter-descriptor.yml
+DIST_DESCRIPTOR := $(DIST_DIR)/gawk.megalinter-descriptor.yml
 DIST_CHECKSUM := $(DIST_DESCRIPTOR).sha256
 MEGALINTER_IMAGE ?= ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0
 VERSION ?= 0.0.0-dev
 BUILD_REF ?= $(shell git rev-parse HEAD 2>/dev/null || true)
-DCLINT_VERSION := 3.1.0
+GAWK_VERSION := 5.4.1
+GAWK_ARCHIVE_SHA256 := 07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37
 
 .PHONY: build clean integration-test test validate validate-release
 
@@ -22,9 +23,14 @@ build:
 		printf 'BUILD_REF must be a 40-character lowercase Git commit SHA: %s\n' "$(BUILD_REF)" >&2; \
 		exit 1; \
 	}
-	@count=$$(grep -Fo 'dclint@$(DCLINT_VERSION)' "$(SOURCE_DESCRIPTOR)" | wc -l | tr -d ' ' || true); \
+	@count=$$(grep -Fo "gawk-$(GAWK_VERSION).tar.xz" "$(SOURCE_DESCRIPTOR)" | wc -l | tr -d ' ' || true); \
 	[[ "$$count" == 1 ]] || { \
-		printf 'Expected exactly one dclint@%s installation pin; found %s\n' "$(DCLINT_VERSION)" "$$count" >&2; \
+		printf 'Expected exactly one gawk-%s.tar.xz source pin; found %s\n' "$(GAWK_VERSION)" "$$count" >&2; \
+		exit 1; \
+	}
+	@count=$$(grep -Fo "$(GAWK_ARCHIVE_SHA256)" "$(SOURCE_DESCRIPTOR)" | wc -l | tr -d ' ' || true); \
+	[[ "$$count" == 1 ]] || { \
+		printf 'Expected exactly one Gawk archive SHA-256 pin; found %s\n' "$$count" >&2; \
 		exit 1; \
 	}
 	@mkdir -p "$(DIST_DIR)"
@@ -70,7 +76,7 @@ validate-release: build
 	@cd "$(DIST_DIR)" && sha256sum -c "$(notdir $(DIST_CHECKSUM))"
 
 integration-test: build
-	DCLINT_DESCRIPTOR="$(DIST_DESCRIPTOR)" \
+	GAWK_DESCRIPTOR="$(DIST_DESCRIPTOR)" \
 	MEGALINTER_IMAGE="$(MEGALINTER_IMAGE)" \
 	tests/megalinter.bash
 

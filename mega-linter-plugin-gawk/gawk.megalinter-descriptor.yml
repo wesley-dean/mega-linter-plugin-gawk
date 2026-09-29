@@ -1,0 +1,48 @@
+---
+descriptor_id: "AWK"
+descriptor_type: "language"
+descriptor_flavors:
+  - "all_flavors"
+  - "ci_light"
+  - "security"
+file_extensions:
+  - ".awk"
+linters:
+  - linter_name: "gawk"
+    name: "AWK_GAWK"
+    linter_repo: "https://git.savannah.gnu.org/cgit/gawk.git/"
+    linter_url: "https://www.gnu.org/software/gawk/"
+    cli_executable: "bash"
+    cli_executable_help: "gawk"
+    cli_executable_version: "gawk"
+    cli_help_arg_name: "--help"
+    cli_version_arg_name: "--version"
+    cli_lint_mode: "file"
+    supported_cli_lint_modes:
+      - "file"
+    cli_lint_extra_args:
+      - "-c"
+      - >-
+        file="${!#}";
+        user_args=();
+        if (( $# > 1 )); then
+          user_args=("${@:1:$#-1}");
+        fi;
+        exec timeout --signal=TERM --kill-after=2s 10s
+        gawk --sandbox --lint "${user_args[@]}" -f "${file}" </dev/null
+      - "_"
+    cli_lint_errors_count: "regex_count"
+    cli_lint_errors_regex: "(?m)^gawk: (?:(?:.*: )?(?:error:|fatal:)|.*\\^ syntax error)$"
+    cli_lint_warnings_count: "regex_count"
+    cli_lint_warnings_regex: "(?m)^gawk: (?:.*: )?warning:"
+    linter_rules_url: "https://www.gnu.org/software/gawk/manual/html_node/Options.html"
+    linter_rules_configuration_url: "https://www.gnu.org/software/gawk/manual/html_node/Options.html"
+    version_extract_regex: "\\d+(?:\\.\\d+){2}"
+    examples:
+      - "gawk --sandbox --lint -f script.awk </dev/null"
+      - "gawk --sandbox --lint=fatal -f script.awk </dev/null"
+    install:
+      dockerfile:
+        - "RUN apk add --no-cache --virtual .gawk-build-deps build-base xz"
+        - "RUN curl -fsSL 'https://ftpmirror.gnu.org/gawk/gawk-5.4.1.tar.xz' -o /tmp/gawk.tar.xz && echo '07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37  /tmp/gawk.tar.xz' | sha256sum -c - && mkdir -p /tmp/gawk-src && tar -xJf /tmp/gawk.tar.xz -C /tmp/gawk-src --strip-components=1 && cd /tmp/gawk-src && ./configure --prefix=/usr/local --disable-nls && make -j\"$(nproc)\" && make install"
+        - "RUN rm -rf /tmp/gawk-src /tmp/gawk.tar.xz && apk del .gawk-build-deps && gawk --version | grep -F 'GNU Awk 5.4.1'"

@@ -14,7 +14,7 @@ setup() {
 
   [ "${status}" -eq 0 ]
 
-  descriptor="${TEST_ROOT}/dist/dclint.megalinter-descriptor.yml"
+  descriptor="${TEST_ROOT}/dist/gawk.megalinter-descriptor.yml"
   checksum="${descriptor}.sha256"
 
   [ -f "${descriptor}" ]
@@ -22,9 +22,9 @@ setup() {
 
   grep -Fq '# Release version: v0.1.0' "${descriptor}"
   grep -Fq "# Source commit: ${RELEASE_REF}" "${descriptor}"
-  grep -Fq 'dclint@3.1.0' "${descriptor}"
+  grep -Fq 'gawk-5.4.1.tar.xz' "${descriptor}"
 
-  run bash -c 'cd "$1" && sha256sum -c dclint.megalinter-descriptor.yml.sha256' _ "${TEST_ROOT}/dist"
+  run bash -c 'cd "$1" && sha256sum -c gawk.megalinter-descriptor.yml.sha256' _ "${TEST_ROOT}/dist"
   [ "${status}" -eq 0 ]
 }
 
@@ -39,8 +39,8 @@ setup() {
 }
 
 @test "documented release URLs satisfy MegaLinter plugin path contract" {
-  version_url="https://github.com/wesley-dean/mega-linter-plugin-dclint/releases/download/v0.1.0/dclint.megalinter-descriptor.yml"
-  latest_url="https://github.com/wesley-dean/mega-linter-plugin-dclint/releases/latest/download/dclint.megalinter-descriptor.yml"
+  version_url="https://github.com/wesley-dean/mega-linter-plugin-gawk/releases/download/v0.1.0/gawk.megalinter-descriptor.yml"
+  latest_url="https://github.com/wesley-dean/mega-linter-plugin-gawk/releases/latest/download/gawk.megalinter-descriptor.yml"
 
   for plugin_url in "${version_url}" "${latest_url}"; do
     [[ "${plugin_url}" == *"/mega-linter-plugin-"* ]]

@@ -1,34 +1,36 @@
 #!/usr/bin/env bats
 
 setup() {
-  DESCRIPTOR="${BATS_TEST_DIRNAME}/../mega-linter-plugin-dclint/dclint.megalinter-descriptor.yml"
+  DESCRIPTOR="${BATS_TEST_DIRNAME}/../mega-linter-plugin-gawk/gawk.megalinter-descriptor.yml"
 }
 
-@test "descriptor pins the reviewed dclint release" {
-  grep -Fq 'RUN npm install --global dclint@3.1.0' "${DESCRIPTOR}"
+@test "descriptor exposes AWK_GAWK for AWK source files" {
+  grep -Fq 'descriptor_id: "AWK"' "${DESCRIPTOR}"
+  grep -Fq 'name: "AWK_GAWK"' "${DESCRIPTOR}"
+  grep -Fq '  - ".awk"' "${DESCRIPTOR}"
 }
 
-@test "descriptor identifies the upstream linter repository" {
-  grep -Fq 'linter_repo: "https://github.com/zavoloklom/docker-compose-linter"' "${DESCRIPTOR}"
-  grep -Fq 'linter_url: "https://github.com/zavoloklom/docker-compose-linter"' "${DESCRIPTOR}"
+@test "descriptor pins and verifies Gawk 5.4.1" {
+  grep -Fq "gawk-5.4.1.tar.xz" "${DESCRIPTOR}"
+  grep -Fq '07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37' "${DESCRIPTOR}"
+  grep -Fq "GNU Awk 5.4.1" "${DESCRIPTOR}"
 }
 
-@test "descriptor matches the upstream Docker Compose filename contract" {
-  grep -Fq '  - "^(docker-)?compose.*\\.ya?ml$"' "${DESCRIPTOR}"
+@test "descriptor identifies GNU upstream" {
+  grep -Fq 'linter_repo: "https://git.savannah.gnu.org/cgit/gawk.git/"' "${DESCRIPTOR}"
+  grep -Fq 'linter_url: "https://www.gnu.org/software/gawk/"' "${DESCRIPTOR}"
 }
 
-@test "descriptor pins upstream rule documentation to dclint 3.1.0" {
-  grep -Fq '472be0872d03fbcb9d3b53b9c69eba00aeabb9af/docs/rules.md' "${DESCRIPTOR}"
-  grep -Fq '472be0872d03fbcb9d3b53b9c69eba00aeabb9af/docs/configuration-comments.md#disabling-rules' "${DESCRIPTOR}"
+@test "descriptor uses file mode and gawk source-file semantics" {
+  grep -Fq 'cli_lint_mode: "file"' "${DESCRIPTOR}"
+  grep -Fq '      - "file"' "${DESCRIPTOR}"
+  grep -Fq 'gawk --sandbox --lint' "${DESCRIPTOR}"
+  grep -Fq -- '-f "${file}" </dev/null' "${DESCRIPTOR}"
 }
 
-@test "descriptor exposes list_of_files mode only" {
-  grep -Fq 'cli_lint_mode: "list_of_files"' "${DESCRIPTOR}"
-  grep -Fq 'supported_cli_lint_modes:' "${DESCRIPTOR}"
-  grep -Fq '      - "list_of_files"' "${DESCRIPTOR}"
-}
-
-@test "descriptor counts both dclint errors and warnings" {
-  grep -Fq 'cli_lint_errors_count: "regex_number"' "${DESCRIPTOR}"
-  grep -Fq 'cli_lint_warnings_count: "regex_number"' "${DESCRIPTOR}"
+@test "descriptor bounds execution and preserves warning semantics" {
+  grep -Fq 'timeout --signal=TERM --kill-after=2s 10s' "${DESCRIPTOR}"
+  grep -Fq 'cli_lint_errors_count: "regex_count"' "${DESCRIPTOR}"
+  grep -Fq 'cli_lint_warnings_count: "regex_count"' "${DESCRIPTOR}"
+  grep -Fq 'warning:' "${DESCRIPTOR}"
 }
