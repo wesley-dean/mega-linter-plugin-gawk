@@ -1,0 +1,10 @@
+venv
+*~
+networks/*.yml
+.env
+megalinter-reports
+reports
+__pycache__
+
+# Generated test reports
+test-results/
