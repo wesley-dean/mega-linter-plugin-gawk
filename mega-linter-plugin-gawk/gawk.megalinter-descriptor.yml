@@ -32,7 +32,7 @@ linters:
         gawk --sandbox --lint "${user_args[@]}" -f "${file}" </dev/null
       - "_"
     cli_lint_errors_count: "regex_count"
-    cli_lint_errors_regex: "(?m)^gawk: (?:(?:.*: )?(?:error:|fatal:)|.*\\^ syntax error)$"
+    cli_lint_errors_regex: "(?m)^gawk: (?:(?:.*: )?(?:error:|fatal:)|.*:[0-9]+:\\s*\\^)"
     cli_lint_warnings_count: "regex_count"
     cli_lint_warnings_regex: "(?m)^gawk: (?:.*: )?warning:"
     linter_rules_url: "https://www.gnu.org/software/gawk/manual/html_node/Options.html"

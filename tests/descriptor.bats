@@ -31,6 +31,7 @@ setup() {
 @test "descriptor bounds execution and preserves warning semantics" {
   grep -Fq 'timeout -s TERM -k 2 10' "${DESCRIPTOR}"
   grep -Fq 'cli_lint_errors_count: "regex_count"' "${DESCRIPTOR}"
+  grep -Fq '.*:[0-9]+:\\s*\\^' "${DESCRIPTOR}"
   grep -Fq 'cli_lint_warnings_count: "regex_count"' "${DESCRIPTOR}"
   grep -Fq 'warning:' "${DESCRIPTOR}"
 }
