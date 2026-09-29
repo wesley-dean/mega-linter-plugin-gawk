@@ -28,7 +28,7 @@ linters:
         if (( $# > 1 )); then
           user_args=("${@:1:$#-1}");
         fi;
-        exec timeout --signal=TERM --kill-after=2s 10s
+        exec timeout -s TERM -k 2 10
         gawk --sandbox --lint "${user_args[@]}" -f "${file}" </dev/null
       - "_"
     cli_lint_errors_count: "regex_count"
