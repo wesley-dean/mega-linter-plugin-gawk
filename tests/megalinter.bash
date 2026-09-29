@@ -108,7 +108,7 @@ cat "${PASS_OUTPUT}"
 
 grep -Fq -- "tests/fixtures/good.awk" "${PASS_OUTPUT}"
 grep -Fq -- "tests/fixtures/lint-warning.awk" "${PASS_OUTPUT}"
-grep -Eq 'Found 0 error\(s\) and [1-9][0-9]* warning\(s\)' "${PASS_OUTPUT}"
+grep -Eq '\|.*AWK.*\|.*gawk.*\|.*file.*\|[[:space:]]*2[[:space:]]*\|.*\|[[:space:]]*0[[:space:]]*\|.*\|[[:space:]]*[1-9][0-9]*[[:space:]]*\|' "${PASS_OUTPUT}"
 
 if run_megalinter '["tests/fixtures/syntax-error.awk","tests/fixtures/sandbox-system.awk"]' > "${FAIL_OUTPUT}" 2>&1; then
   cat "${FAIL_OUTPUT}"
