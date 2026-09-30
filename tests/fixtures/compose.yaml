@@ -1,5 +1,0 @@
----
-name: "fixture"
-services:
-  app:
-    image: "busybox:latest"

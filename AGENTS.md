@@ -30,14 +30,19 @@ authoritative for this project.
 ## Scope and Compatibility
 
 Keep changes surgical and reviewable. Preserve the public MegaLinter linter key
-`DOCKERFILE_DCLINT` and the plugin descriptor path unless an accepted local
-decision explicitly changes those interfaces. Do not combine unrelated cleanup
-with requested work.
+`AWK_GAWK` and the plugin descriptor path unless an accepted local decision
+explicitly changes those interfaces.
 
 ## Bash
 
 Maintained Bash follows `doc/standards/bash/documentation-standard.md` and the
 repository shfmt policy `-i 2 -bn -ci -sr -kp`.
+
+## AWK
+
+Maintained AWK follows `doc/standards/awk/documentation-standard.md`. Test
+fixtures may intentionally violate lint or syntax rules when the protected
+behavior requires it.
 
 ## Testing
 

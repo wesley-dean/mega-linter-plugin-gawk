@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 ## @file tests/validate.bash
-## @brief Validates a dclint plugin descriptor against MegaLinter's pinned schema.
+## @brief Validates a Gawk plugin descriptor against MegaLinter's pinned schema.
 ## @details
 ## Uses the same pinned MegaLinter image as integration testing so descriptor
-## validation does not depend on a separately installed v8r executable. The
-## selected descriptor is mounted read-only into a dedicated container working
-## directory and passed to v8r by relative path so generated files beneath
-## ignored build directories are validated directly.
+## validation does not depend on a separately installed v8r executable.
 ##
 ## @par STDIN
 ## Nothing is read from STDIN.
@@ -23,16 +20,16 @@
 
 set -euo pipefail
 
-readonly DCLINT_EX_NOINPUT=66
+readonly GAWK_EX_NOINPUT=66
 readonly MEGALINTER_IMAGE="${MEGALINTER_IMAGE:-ghcr.io/oxsecurity/megalinter-ci_light:v10.1.0}"
 readonly V8R_SCHEMA_URL="${V8R_SCHEMA_URL:-https://raw.githubusercontent.com/oxsecurity/megalinter/v10.1.0/megalinter/descriptors/schemas/megalinter-descriptor.jsonschema.json}"
-readonly DESCRIPTOR_PATH="${1:-mega-linter-plugin-dclint/dclint.megalinter-descriptor.yml}"
-readonly CONTAINER_WORKDIR="/tmp/dclint-descriptor"
-readonly CONTAINER_DESCRIPTOR="dclint.megalinter-descriptor.yml"
+readonly DESCRIPTOR_PATH="${1:-mega-linter-plugin-gawk/gawk.megalinter-descriptor.yml}"
+readonly CONTAINER_WORKDIR="/tmp/gawk-descriptor"
+readonly CONTAINER_DESCRIPTOR="gawk.megalinter-descriptor.yml"
 
 if [[ ! -r ${DESCRIPTOR_PATH} ]]; then
   printf 'Descriptor is not readable: %s\n' "${DESCRIPTOR_PATH}" >&2
-  exit "${DCLINT_EX_NOINPUT}"
+  exit "${GAWK_EX_NOINPUT}"
 fi
 
 docker run \
