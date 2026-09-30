@@ -22,7 +22,7 @@ setup() {
 
   grep -Fq '# Release version: v0.1.0' "${descriptor}"
   grep -Fq "# Source commit: ${RELEASE_REF}" "${descriptor}"
-  grep -Fq 'gawk-5.4.1.tar.xz' "${descriptor}"
+  grep -Fq "apk add --no-cache 'gawk=~5'" "${descriptor}"
 
   run bash -c 'cd "$1" && sha256sum -c gawk.megalinter-descriptor.yml.sha256' _ "${TEST_ROOT}/dist"
   [ "${status}" -eq 0 ]

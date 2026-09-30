@@ -10,10 +10,9 @@ setup() {
   grep -Fq '  - ".awk"' "${DESCRIPTOR}"
 }
 
-@test "descriptor pins and verifies Gawk 5.4.1" {
-  grep -Fq "gawk-5.4.1.tar.xz" "${DESCRIPTOR}"
-  grep -Fq '07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37' "${DESCRIPTOR}"
-  grep -Fq "GNU Awk 5.4.1" "${DESCRIPTOR}"
+@test "descriptor installs Alpine Gawk major version 5" {
+  grep -Fq "apk add --no-cache 'gawk=~5'" "${DESCRIPTOR}"
+  grep -Fq "gawk --version | grep -Eq '^GNU Awk 5" "${DESCRIPTOR}"
 }
 
 @test "descriptor identifies GNU upstream" {

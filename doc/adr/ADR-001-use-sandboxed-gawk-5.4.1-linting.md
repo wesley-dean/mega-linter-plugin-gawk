@@ -6,6 +6,12 @@ Date: 2026-09-29
 
 Accepted
 
+## Superseded By
+
+ADR-003 supersedes only this ADR's requirement to build and verify GNU Awk
+5.4.1 from a source archive. The sandbox, closed-stdin, execution-ceiling,
+diagnostic, file-mode, and user-argument decisions remain current.
+
 ## Context
 
 This repository provides MegaLinter linting for AWK source files using GNU Awk.
@@ -23,9 +29,11 @@ GNU Awk provides `--sandbox`, which disables `system()`, redirected file and
 pipe I/O, redirected `getline`, dynamic extensions, and adding new input files
 through `ARGV`.
 
-The reviewed upstream release is GNU Awk 5.4.1. The plugin downloads the
-official GNU release archive and verifies SHA-256
-`07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37` before building it.
+The reviewed upstream release was GNU Awk 5.4.1. The initial plugin design
+downloaded the official GNU release archive and verified SHA-256
+`07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37`
+before building it. ADR-003 later replaced that installation and exact-version
+decision.
 
 ## Decision Drivers
 
@@ -59,10 +67,9 @@ MegaLinter user arguments SHALL be forwarded to Gawk before `-f`. A consumer
 MAY therefore add `--lint=fatal` when repository policy requires warnings to
 fail the build.
 
-The plugin SHALL build GNU Awk 5.4.1 from the GNU release archive at
-`https://ftpmirror.gnu.org/gawk/gawk-5.4.1.tar.xz`. The installation
-SHALL verify SHA-256 `07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37` before extraction and SHALL fail if the
-installed `gawk --version` output does not identify GNU Awk 5.4.1.
+The original decision required the plugin to build GNU Awk 5.4.1 from the GNU
+release archive and verify its SHA-256 digest before installation. ADR-003
+supersedes that requirement.
 
 ## Alternatives Considered
 
@@ -79,10 +86,9 @@ errors. Consumers may opt into the stricter behavior through
 
 ### Install Alpine's Packaged Gawk
 
-Rejected for the reviewed initial integration because MegaLinter 10.1.0's Alpine
-3.24 base currently carries an older Gawk release. Following the base package
-would couple plugin behavior to the container distribution and would not provide
-the reviewed 5.4.1 lint engine.
+Initially rejected because MegaLinter's Alpine base carried an older Gawk release
+than the exact upstream release selected for the first design. ADR-003 revisited
+this tradeoff and supersedes that rejection.
 
 ### Compile Without a Release Digest
 
@@ -102,11 +108,11 @@ semantics would create a misleading security contract.
 - Gawk execution is meaningfully constrained during linting.
 - Ambient input cannot unexpectedly drive record-processing rules.
 - Infinite or unexpectedly expensive per-file execution is bounded.
-- The reviewed Gawk source archive is cryptographically pinned.
+- The initial design cryptographically pinned its reviewed source archive.
 
 ### Negative
 
-- Source compilation adds plugin initialization time.
+- The initial source compilation added plugin initialization time.
 - A valid AWK program whose `BEGIN` or `END` actions require a
   sandbox-prohibited operation may fail under this plugin.
 - Sandbox mode mitigates but does not transform Gawk into a purely static parser.
@@ -118,6 +124,8 @@ semantics would create a misleading security contract.
 This repository is new, so there is no prior `AWK_GAWK` compatibility contract
 to preserve. Consumers requiring lint warnings to fail may configure
 `AWK_GAWK_ARGUMENTS: ["--lint=fatal"]`.
+
+ADR-003 changes only how the Gawk executable is selected and installed.
 
 ## Expected Outcome
 

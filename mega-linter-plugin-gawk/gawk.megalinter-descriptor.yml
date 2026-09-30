@@ -43,6 +43,4 @@ linters:
       - "gawk --sandbox --lint=fatal -f script.awk </dev/null"
     install:
       dockerfile:
-        - "RUN apk add --no-cache --virtual .gawk-build-deps build-base xz"
-        - "RUN curl -fsSL 'https://ftpmirror.gnu.org/gawk/gawk-5.4.1.tar.xz' -o /tmp/gawk.tar.xz && echo '07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37  /tmp/gawk.tar.xz' | sha256sum -c - && mkdir -p /tmp/gawk-src && tar -xJf /tmp/gawk.tar.xz -C /tmp/gawk-src --strip-components=1 && cd /tmp/gawk-src && ./configure --prefix=/usr/local --disable-nls && make -j\"$(nproc)\" && make install"
-        - "RUN rm -rf /tmp/gawk-src /tmp/gawk.tar.xz && apk del .gawk-build-deps && gawk --version | grep -F 'GNU Awk 5.4.1'"
+        - "RUN apk add --no-cache 'gawk=~5' && gawk --version | grep -Eq '^GNU Awk 5\\.'"

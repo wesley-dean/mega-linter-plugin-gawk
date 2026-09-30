@@ -70,23 +70,23 @@ compatibility consequence: an otherwise valid AWK program that intentionally
 performs a sandbox-prohibited operation from a `BEGIN` or `END` action may fail
 the lint run. That tradeoff is recorded in ADR-001.
 
-## Upstream Version
+## GNU Awk Version
 
-The plugin builds GNU Awk 5.4.1 from the official GNU distribution:
-
-```text
-https://ftpmirror.gnu.org/gawk/gawk-5.4.1.tar.xz
-```
-
-Before extracting the archive, the installation verifies:
+The plugin installs Gawk from the Alpine package repositories used by the
+MegaLinter base image:
 
 ```text
-SHA-256: 07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37
+apk add --no-cache 'gawk=~5'
 ```
 
-The source build is slower than installing Alpine's packaged Gawk, but it makes
-the reviewed upstream version explicit and avoids silently changing the lint
-engine when the MegaLinter base image changes.
+The fuzzy package constraint accepts Gawk 5.x while rejecting a future major
+version. The exact minor, patch, and Alpine package revision therefore follow
+the pinned MegaLinter base image and its Alpine release rather than requiring a
+source build inside every plugin initialization.
+
+The integration suite validates the Gawk behavior on which `AWK_GAWK` depends:
+ordinary lint warnings, syntax failures, sandbox enforcement, and the configured
+execution boundary. ADR-003 records this versioning and installation policy.
 
 ## GNU Awk Documentation
 
@@ -108,10 +108,9 @@ commit that produced it. Release validation exercises the generated descriptor
 through MegaLinter before publication.
 
 This repository was initialized by copying another plugin repository. The copied
-DCLint `v0.1.0` tag and GitHub Release are not part of this project's history
-and must be removed before the first Gawk release is published. The release
-workflow fails closed while that copied tag still points at the inherited DCLint
-commit.
+DCLint GitHub Release has been removed, but the copied `v0.1.0` tag must also
+be removed before the first Gawk release is published. The release workflow
+fails closed while that tag still points at the inherited DCLint commit.
 
 ## Development
 
