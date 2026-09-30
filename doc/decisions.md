@@ -19,8 +19,8 @@ Plugin releases publish a generated `gawk.megalinter-descriptor.yml` and its
 SHA-256 checksum after validating the exact generated descriptor through
 MegaLinter. Publication is separated from source-executing validation, and the
 published descriptor records both its release version and source commit. The
-inherited DCLint release is gone, but its copied `v0.1.0` tag must still be
-removed before the first Gawk release.
+copied DCLint release and tag were removed before the first Gawk release, so the
+Gawk release lineage begins cleanly at `v0.1.0`.
 
 See [ADR-002](adr/ADR-002-publish-versioned-gawk-descriptor-release-assets.md).
 

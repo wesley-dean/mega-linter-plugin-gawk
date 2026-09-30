@@ -18,11 +18,11 @@ See [ADR-001](ADR-001-use-sandboxed-gawk-5.4.1-linting.md).
 
 ### ADR-002: Publish Versioned Gawk Descriptor Release Assets
 
-The copied DCLint release objects are not legitimate Gawk history. The copied
-GitHub Release has been removed, while the inherited `v0.1.0` tag must still be
-removed before the first Gawk release; the workflow fails closed while that tag
-points at the inherited DCLint commit. Each Gawk release publishes the validated
-descriptor and its SHA-256 checksum through a separate publication boundary.
+The copied DCLint `v0.1.0` tag and GitHub Release were removed before the first
+Gawk release, preserving a clean release lineage beginning at `v0.1.0`. Each
+release publishes the validated Gawk descriptor and its SHA-256 checksum through
+a separate publication boundary. The release descriptor records both the
+release version and exact source commit.
 
 See [ADR-002](ADR-002-publish-versioned-gawk-descriptor-release-assets.md).
 

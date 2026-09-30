@@ -107,10 +107,9 @@ The distributed descriptor records the plugin release version and exact source
 commit that produced it. Release validation exercises the generated descriptor
 through MegaLinter before publication.
 
-This repository was initialized by copying another plugin repository. The copied
-DCLint GitHub Release has been removed, but the copied `v0.1.0` tag must also
-be removed before the first Gawk release is published. The release workflow
-fails closed while that tag still points at the inherited DCLint commit.
+The repository was initialized from another plugin repository, and the copied
+DCLint `v0.1.0` GitHub Release and tag were removed before the first Gawk
+release. The first legitimate Gawk release therefore begins at `v0.1.0`.
 
 ## Development
 

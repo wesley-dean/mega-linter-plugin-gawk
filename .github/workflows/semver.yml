@@ -31,18 +31,6 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Reject copied DCLint release tag
-        shell: bash
-        run: |
-          readonly copied_dclint_sha="e244e7f7c8497da882c8abfcafe3d0d199573b7b"
-          tag_sha="$(git rev-list -n 1 v0.1.0 2>/dev/null || true)"
-          if [[ "${tag_sha}" == "${copied_dclint_sha}" ]]; then
-            printf '%s\n' \
-              'Copied DCLint v0.1.0 tag remains. Delete the copied GitHub Release and tag before publishing Gawk.' \
-              >&2
-            exit 1
-          fi
-
       - name: Calculate version
         id: calculate-version
         uses: bitshifted/git-auto-semver@c4e8f005e839f822325356f141939cf6c76b5701 # v1
