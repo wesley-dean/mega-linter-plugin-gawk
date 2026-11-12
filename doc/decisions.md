@@ -33,3 +33,13 @@ MegaLinter base image and its package repositories. Integration tests, rather
 than an exact Gawk patch release, define the required runtime compatibility.
 
 See [ADR-003](adr/ADR-003-use-alpine-gawk-major-version-5.md).
+
+## ADR-004: Consolidate GitHub Actions Dependabot Version Updates
+
+The repository retains weekly routine GitHub Actions version updates with
+a seven-day cooldown and groups eligible major, minor, and patch versions.
+Security updates remain separate, and groups containing major updates stay
+outside the existing non-major-only auto-merge path. Existing Gawk sandbox,
+version-5, release verification, and publication decisions remain unchanged.
+
+See [ADR-004](adr/ADR-004-consolidate-github-actions-dependabot-maintenance.md).

@@ -37,6 +37,13 @@ enforcement through MegaLinter.
 
 See [ADR-003](ADR-003-use-alpine-gawk-major-version-5.md).
 
+### ADR-004: Consolidate GitHub Actions Dependabot Version Updates
+
+The weekly routine version-update group covers major, minor, and patch
+versions while independent security updates and manual major review remain.
+
+See [ADR-004](ADR-004-consolidate-github-actions-dependabot-maintenance.md).
+
 <!-- adrctl-generated-footer -->
 
 ## Architecture Decision Records
@@ -44,3 +51,4 @@ See [ADR-003](ADR-003-use-alpine-gawk-major-version-5.md).
 * [ADR-001: Use Sandboxed GNU Awk 5.4.1 Linting](ADR-001-use-sandboxed-gawk-5.4.1-linting.md)
 * [ADR-002: Publish Versioned Gawk Descriptor Release Assets](ADR-002-publish-versioned-gawk-descriptor-release-assets.md)
 * [ADR-003: Use Alpine Gawk Major Version 5](ADR-003-use-alpine-gawk-major-version-5.md)
+* [ADR-004: Consolidate GitHub Actions Dependabot Version Updates](ADR-004-consolidate-github-actions-dependabot-maintenance.md)
