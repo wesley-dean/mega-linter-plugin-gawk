@@ -139,6 +139,14 @@ For a local release-style build:
 make build VERSION=0.1.0 BUILD_REF="$(git rev-parse HEAD)"
 ```
 
+## Dependabot Maintenance
+
+Routine GitHub Actions version updates remain weekly with a seven-day
+cooldown and one broad major/minor/patch version-update group. Security
+updates remain independent. A group with a major upgrade requires manual
+review, preserving the existing non-major-only auto-merge guard. Existing
+Dependabot PRs are not automatically superseded. See [ADR-004](doc/adr/ADR-004-consolidate-github-actions-dependabot-maintenance.md).
+
 ## Repository Governance
 
 This repository adopts released engineering standards from
