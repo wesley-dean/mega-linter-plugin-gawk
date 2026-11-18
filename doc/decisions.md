@@ -19,10 +19,23 @@ Plugin releases publish a generated `gawk.megalinter-descriptor.yml` and its
 SHA-256 checksum after validating the exact generated descriptor through
 MegaLinter. Publication is separated from source-executing validation, and the
 published descriptor records both its release version and source commit. The
-copied DCLint release and tag were removed before the first Gawk release, so the
-Gawk release lineage begins cleanly at `v0.1.0`.
+copied DCLint release and tag were removed, but the original `v0.1.0`
+release seed was later superseded by ADR-005 after GitHub rejected reuse of
+the immutable release's tag name.
 
 See [ADR-002](adr/ADR-002-publish-versioned-gawk-descriptor-release-assets.md).
+
+## Initial Release Version After Immutable Tag Reservation
+
+GitHub rejected publication under `v0.1.0` because the tag name had already
+been used by an immutable release, despite removal of the copied tag and
+release. The first legitimate Gawk release therefore uses `v0.1.1`, with
+both the workflow's initial version and documentation examples updated.
+This partially supersedes ADR-002's first-version requirement while
+preserving its release validation, checksum, and publication controls.
+A separate ref-creation restriction, if any, still requires investigation.
+
+See [ADR-005](adr/ADR-005-use-v0.1.1-after-immutable-release-tag-reservation.md).
 
 ## Alpine Gawk Major Version 5
 

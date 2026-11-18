@@ -14,7 +14,7 @@ For reproducible CI and production workflows, pin the plugin to a release:
 
 ```yaml
 PLUGINS:
-  - "https://github.com/wesley-dean/mega-linter-plugin-gawk/releases/download/v0.1.0/gawk.megalinter-descriptor.yml"
+  - "https://github.com/wesley-dean/mega-linter-plugin-gawk/releases/download/v0.1.1/gawk.megalinter-descriptor.yml"
 
 ENABLE_LINTERS:
   - "AWK_GAWK"
@@ -107,9 +107,10 @@ The distributed descriptor records the plugin release version and exact source
 commit that produced it. Release validation exercises the generated descriptor
 through MegaLinter before publication.
 
-The repository was initialized from another plugin repository, and the copied
-DCLint `v0.1.0` GitHub Release and tag were removed before the first Gawk
-release. The first legitimate Gawk release therefore begins at `v0.1.0`.
+The repository inherited an unrelated DCLint `v0.1.0` release and tag. Both
+were deleted, but GitHub does not permit reuse of tag names associated with
+published immutable releases. The first legitimate Gawk release will instead
+use `v0.1.1`, as governed by [ADR-005](doc/adr/ADR-005-use-v0.1.1-after-immutable-release-tag-reservation.md).
 
 ## Development
 
@@ -136,7 +137,7 @@ make clean
 For a local release-style build:
 
 ```bash
-make build VERSION=0.1.0 BUILD_REF="$(git rev-parse HEAD)"
+make build VERSION=0.1.1 BUILD_REF="$(git rev-parse HEAD)"
 ```
 
 ## Dependabot Maintenance

@@ -6,6 +6,13 @@ Date: 2026-09-29
 
 Accepted
 
+## Superseded By
+
+ADR-005 supersedes only the requirement that the first legitimate Gawk
+release use `v0.1.0`. All other release-artifact, validation, provenance,
+and publication-boundary requirements remain in force. The original
+version decision and its history are preserved below.
+
 ## Context
 
 The new Gawk plugin repository was initialized from the DCLint plugin repository

@@ -36,7 +36,7 @@ jobs:
         uses: bitshifted/git-auto-semver@c4e8f005e839f822325356f141939cf6c76b5701 # v1
         with:
           create_tag: false
-          initial_version: 0.1.0
+          initial_version: 0.1.1
           tag_prefix: v
 
       - name: Install Bats
