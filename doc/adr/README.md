@@ -55,6 +55,15 @@ Additional ref-creation restrictions remain a distinct potential blocker.
 
 See [ADR-005](ADR-005-use-v0.1.1-after-immutable-release-tag-reservation.md).
 
+### ADR-006: Migrate Routine Dependency Updates to Central Renovate
+
+The repository enrolls in centrally managed Jenkins Renovate through
+`renovate.json`, disables scheduled routine Dependabot PRs, and preserves
+independent security responses and required review gates. This decision
+partially supersedes the earlier Dependabot maintenance ADR.
+
+See [ADR-006](ADR-006-migrate-routine-dependency-updates-to-renovate.md).
+
 <!-- adrctl-generated-footer -->
 
 ## Architecture Decision Records
@@ -64,3 +73,4 @@ See [ADR-005](ADR-005-use-v0.1.1-after-immutable-release-tag-reservation.md).
 * [ADR-003: Use Alpine Gawk Major Version 5](ADR-003-use-alpine-gawk-major-version-5.md)
 * [ADR-004: Consolidate GitHub Actions Dependabot Version Updates](ADR-004-consolidate-github-actions-dependabot-maintenance.md)
 * [ADR-005: Use v0.1.1 After Immutable Release Tag Reservation](ADR-005-use-v0.1.1-after-immutable-release-tag-reservation.md)
+* [ADR-006: Migrate Routine Dependency Updates to Central Renovate](ADR-006-migrate-routine-dependency-updates-to-renovate.md)
