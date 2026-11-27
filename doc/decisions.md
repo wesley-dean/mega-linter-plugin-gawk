@@ -56,3 +56,15 @@ outside the existing non-major-only auto-merge path. Existing Gawk sandbox,
 version-5, release verification, and publication decisions remain unchanged.
 
 See [ADR-004](adr/ADR-004-consolidate-github-actions-dependabot-maintenance.md).
+
+## ADR-006: Migrate Routine Dependency Updates to Centrally Managed Renovate
+
+This repository enrolls in the existing Jenkins-hosted Renovate service through
+root `renovate.json` and disables scheduled Dependabot version-update PRs
+for each configured ecosystem. Independent Dependabot security updates,
+required checks, human code-owner approval, and reviewed immutable action
+SHAs remain protected. ADR-006 partially supersedes ADR-004's active routine provider and prior routine-PR retirement policy, retaining security and supply-chain safeguards.
+Any temporarily moving action reference requires review before Renovate
+restores the immutable pin; successful Jenkins execution remains unverified.
+
+See [ADR-006](adr/ADR-006-migrate-routine-dependency-updates-to-renovate.md).
